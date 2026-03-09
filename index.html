@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ajaypreet Singh Kalsi — Game Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #161616;
+    --surface: #1a1a1a;
+    --border: #2a2a2a;
+    --accent: #e8ff00;
+    --accent2: #ff4d00;
+    --text: #f0f0f0;
+    --muted: #666;
+    --subtle: #333;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+    opacity: 0.5;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9000;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+    backdrop-filter: blur(4px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 40%, rgba(232,255,0,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 70%, rgba(255,77,0,0.04) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0a0a 0%, #0d0d0d 100%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,255,0,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,255,0,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 70% 40%, black 20%, transparent 70%);
+  }
+
+  .hero-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 160px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--text);
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.5s;
+  }
+
+  .hero-name span { color: var(--accent); }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--muted);
+    margin-top: 32px;
+    max-width: 480px;
+    line-height: 1.7;
+    font-weight: 400;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.7s;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 20px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.9s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+    padding: 14px 32px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: none;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 14px 32px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    right: 48px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards 1.4s;
+  }
+
+  .hero-scroll span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: var(--muted);
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 120px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .about-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  .about-text {
+    font-size: 15px;
+    line-height: 1.85;
+    color: #888;
+    margin-bottom: 20px;
+  }
+
+  .about-text strong { color: var(--text); font-weight: 600; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .skill-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .skill-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s ease;
+  }
+
+  .skill-item:hover::before { transform: scaleY(1); }
+  .skill-item:hover { border-color: var(--accent); }
+
+  .skill-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .skill-tool {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* PROJECTS */
+  .projects {
+    padding: 80px 48px 120px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+  }
+
+  .projects-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: 20px;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    cursor: none;
+    transition: border-color 0.3s, transform 0.3s;
+    group: true;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .project-card:nth-child(1) { grid-column: span 7; }
+  .project-card:nth-child(2) { grid-column: span 5; }
+  .project-card:nth-child(3) { grid-column: span 5; }
+  .project-card:nth-child(4) { grid-column: span 7; }
+
+  .project-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--bg3);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-thumb-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: var(--subtle);
+    transition: transform 0.4s ease;
+  }
+
+  .project-card:hover .project-thumb-inner { transform: scale(1.1); }
+
+  .project-thumb-p1 { background: linear-gradient(135deg, #0d1117 0%, #1a2332 50%, #0f1923 100%); }
+  .project-thumb-p2 { background: linear-gradient(135deg, #110d0a 0%, #2a1a10 50%, #1a1008 100%); }
+  .project-thumb-p3 { background: linear-gradient(135deg, #0a110d 0%, #102a18 50%, #081a10 100%); }
+  .project-thumb-p4 { background: linear-gradient(135deg, #110a11 0%, #2a1028 50%, #1a081a 100%); }
+
+  .project-thumb-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: rgba(232,255,0,0.15);
+    border: 1px solid rgba(232,255,0,0.3);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+  }
+
+  .project-info {
+    padding: 24px;
+  }
+
+  .project-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .project-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    margin-top: 16px;
+    transition: gap 0.2s;
+  }
+
+  .project-link:hover { gap: 14px; }
+
+  /* PROCESS */
+  .process {
+    padding: 80px 48px 120px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .process-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .process-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    margin-bottom: 64px;
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+  }
+
+  .process-step {
+    padding: 40px 32px;
+    border-right: 1px solid var(--border);
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .process-step:last-child { border-right: none; }
+  .process-step:hover { background: var(--surface); }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--subtle);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .step-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 120px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    color: var(--text);
+  }
+
+  .contact-title span { color: var(--accent); }
+
+  .contact-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-top: 24px;
+    line-height: 1.7;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: all 0.2s;
+    group: true;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    background: rgba(232,255,0,0.03);
+  }
+
+  .contact-link-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .contact-link:hover .contact-link-icon {
+    border-color: var(--accent);
+    background: rgba(232,255,0,0.1);
+  }
+
+  .contact-link-info { flex: 1; }
+
+  .contact-link-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .contact-link-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .contact-link-arrow {
+    color: var(--muted);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .contact-link:hover .contact-link-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 4px;
+    color: var(--muted);
+  }
+
+  .footer-copy {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--subtle);
+  }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .lang-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 8px 14px;
+    cursor: none;
+    transition: all 0.2s;
+  }
+
+  .lang-btn.active {
+    background: var(--accent);
+    color: #000;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50%       { opacity: 1;   transform: scaleY(1.3); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 24px 60px; }
+    .about { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
+    .projects { padding: 60px 24px; }
+    .project-card:nth-child(n) { grid-column: span 12; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .process-step { border-bottom: 1px solid var(--border); }
+    .contact { grid-template-columns: 1fr; padding: 80px 24px; }
+    footer { padding: 24px; flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">ASK</a>
+  <ul class="nav-links">
+    <li><a href="#about" data-en="About" data-fr="À propos">About</a></li>
+    <li><a href="#projects" data-en="Projects" data-fr="Projets">Projects</a></li>
+    <li><a href="#process" data-en="Process" data-fr="Démarche">Process</a></li>
+    <li><a href="#contact" data-en="Contact" data-fr="Contact">Contact</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en">EN</button>
+    <button class="lang-btn" id="btn-fr">FR</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <p class="hero-tag" data-en="Game Developer · Level Design · Unreal Engine · Maya" data-fr="Développeur Jeu · Level Design · Unreal Engine · Maya">
+    Game Developer · Level Design · Unreal Engine · Maya
+  </p>
+  <h1 class="hero-name">
+    Ajaypreet<br><span>Singh Kalsi</span>
+  </h1>
+  <p class="hero-sub" data-en="Student in Video Game Programming with a creative focus — building immersive worlds through level design, 3D assets, and Unreal Engine." data-fr="Étudiant en programmation de jeux vidéo avec une orientation créative — création de mondes immersifs via le level design, les assets 3D et Unreal Engine.">
+    Student in Video Game Programming with a creative focus — building immersive worlds through level design, 3D assets, and Unreal Engine.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary" data-en="View My Work" data-fr="Voir mes projets">View My Work</a>
+    <a href="mailto:ajaypreetskalsi@gmail.com" class="btn-secondary" data-en="Get In Touch" data-fr="Me contacter">Get In Touch</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span data-en="Scroll" data-fr="Défiler">Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="reveal">
+    <p class="section-label" data-en="About Me" data-fr="À propos">About Me</p>
+    <h2 class="about-title" data-en="Creative Dev.<br>Technical Builder." data-fr="Dev Créatif.<br>Bâtisseur Technique.">Creative Dev.<br>Technical Builder.</h2>
+    <p class="about-text" data-en="I'm a <strong>Video Game Programming student</strong> based in Montréal, passionate about the intersection of creativity and code. My focus is on <strong>level design and 3D modeling</strong> — crafting spaces that feel alive and purposeful." data-fr="Je suis <strong>étudiant en programmation de jeux vidéo</strong> basé à Montréal, passionné par l'intersection de la créativité et du code. Mon focus est sur le <strong>level design et la modélisation 3D</strong> — créer des espaces vivants et intentionnels.">
+      I'm a <strong>Video Game Programming student</strong> based in Montréal, passionate about the intersection of creativity and code. My focus is on <strong>level design and 3D modeling</strong> — crafting spaces that feel alive and purposeful.
+    </p>
+    <p class="about-text" data-en="Currently seeking an internship where I can contribute to a creative team, grow under experienced developers, and push my craft to the next level." data-fr="Je recherche actuellement un stage où je peux contribuer à une équipe créative, grandir aux côtés de développeurs expérimentés, et faire progresser mon art.">
+      Currently seeking an internship where I can contribute to a creative team, grow under experienced developers, and push my craft to the next level.
+    </p>
+  </div>
+  <div class="reveal" style="transition-delay:0.2s">
+    <div class="skills-grid">
+      <div class="skill-item">
+        <p class="skill-name">Engine</p>
+        <p class="skill-tool">Unreal Engine 5</p>
+      </div>
+      <div class="skill-item">
+        <p class="skill-name">3D / Art</p>
+        <p class="skill-tool">Autodesk Maya</p>
+      </div>
+      <div class="skill-item">
+        <p class="skill-name">Language</p>
+        <p class="skill-tool">C++ / Blueprints</p>
+      </div>
+      <div class="skill-item">
+        <p class="skill-name">Focus</p>
+        <p class="skill-tool">Level Design</p>
+      </div>
+      <div class="skill-item">
+        <p class="skill-name">Location</p>
+        <p class="skill-tool">Montréal, QC</p>
+      </div>
+      <div class="skill-item">
+        <p class="skill-name">Status</p>
+        <p class="skill-tool" style="color:var(--accent)" data-en="Open to Internship" data-fr="Disponible pour stage">Open to Internship</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="projects-header reveal">
+    <div>
+      <p class="section-label" data-en="Selected Work" data-fr="Travaux sélectionnés">Selected Work</p>
+      <h2 class="projects-title" data-en="Projects" data-fr="Projets">Projects</h2>
+    </div>
+  </div>
+
+  <div class="project-grid">
+    <!-- PROJECT 1 -->
+    <div class="project-card reveal">
+      <div class="project-thumb project-thumb-p1">
+        <div class="project-thumb-inner">P1</div>
+        <span class="project-thumb-badge" data-en="Unreal Engine 5" data-fr="Unreal Engine 5">Unreal Engine 5</span>
+      </div>
+      <div class="project-info">
+        <p class="project-num">01</p>
+        <h3 class="project-name" data-en="[Your Project Name]" data-fr="[Nom du projet]">[Your Project Name]</h3>
+        <p class="project-desc" data-en="Describe what you built — what's the game about, what was your role? What did you design or implement? Replace this with your real project description." data-fr="Décrivez ce que vous avez créé — de quoi s'agit-il? Quel était votre rôle? Remplacez ceci par la vraie description.">
+          Describe what you built — what's the game about, what was your role? What did you design or implement? Replace this with your real project description.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Level Design</span>
+          <span class="tag">Blueprints</span>
+          <span class="tag">Unreal 5</span>
+        </div>
+        <a href="#" class="project-link" data-en="View Project →" data-fr="Voir le projet →">View Project →</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="project-card reveal" style="transition-delay:0.1s">
+      <div class="project-thumb project-thumb-p2">
+        <div class="project-thumb-inner">P2</div>
+        <span class="project-thumb-badge">Maya 3D</span>
+      </div>
+      <div class="project-info">
+        <p class="project-num">02</p>
+        <h3 class="project-name" data-en="[3D Model / Asset]" data-fr="[Modèle 3D / Asset]">[3D Model / Asset]</h3>
+        <p class="project-desc" data-en="Describe your Maya work — character, prop, environment piece? What was the poly count, style, or challenge? Replace with your real project." data-fr="Décrivez votre travail Maya — personnage, accessoire, environnement? Quel était le défi? Remplacez par votre vrai projet.">
+          Describe your Maya work — character, prop, environment piece? What was the poly count, style, or challenge? Replace with your real project.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Maya</span>
+          <span class="tag">3D Modeling</span>
+          <span class="tag">Texturing</span>
+        </div>
+        <a href="#" class="project-link" data-en="View Project →" data-fr="Voir le projet →">View Project →</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 3 -->
+    <div class="project-card reveal" style="transition-delay:0.2s">
+      <div class="project-thumb project-thumb-p3">
+        <div class="project-thumb-inner">P3</div>
+        <span class="project-thumb-badge" data-en="Game Jam" data-fr="Game Jam">Game Jam</span>
+      </div>
+      <div class="project-info">
+        <p class="project-num">03</p>
+        <h3 class="project-name" data-en="[Game Jam Project]" data-fr="[Projet Game Jam]">[Game Jam Project]</h3>
+        <p class="project-desc" data-en="What was the jam theme? What did you make in 48-72 hours? What was your contribution to the team? Replace with your real game jam project." data-fr="Quel était le thème? Qu'avez-vous créé en 48-72h? Quelle était votre contribution? Remplacez par votre vrai projet.">
+          What was the jam theme? What did you make in 48-72 hours? What was your contribution to the team? Replace with your real game jam project.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Game Jam</span>
+          <span class="tag">Team Project</span>
+          <span class="tag">Unreal</span>
+        </div>
+        <a href="#" class="project-link" data-en="View Project →" data-fr="Voir le projet →">View Project →</a>
+      </div>
+    </div>
+
+    <!-- PROJECT 4 -->
+    <div class="project-card reveal" style="transition-delay:0.3s">
+      <div class="project-thumb project-thumb-p4">
+        <div class="project-thumb-inner">P4</div>
+        <span class="project-thumb-badge" data-en="School Project" data-fr="Projet scolaire">School Project</span>
+      </div>
+      <div class="project-info">
+        <p class="project-num">04</p>
+        <h3 class="project-name" data-en="[School Project]" data-fr="[Projet scolaire]">[School Project]</h3>
+        <p class="project-desc" data-en="What was the brief? What did you learn? What's the most interesting technical or creative challenge you solved? Replace with your real school project." data-fr="Quel était le brief? Qu'avez-vous appris? Quel était le défi le plus intéressant? Remplacez par votre vrai projet scolaire.">
+          What was the brief? What did you learn? What's the most interesting technical or creative challenge you solved? Replace with your real school project.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Academic</span>
+          <span class="tag">Level Design</span>
+          <span class="tag">Maya</span>
+        </div>
+        <a href="#" class="project-link" data-en="View Project →" data-fr="Voir le projet →">View Project →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div class="reveal">
+      <p class="section-label" data-en="How I Work" data-fr="Ma démarche">How I Work</p>
+      <h2 class="process-title" data-en="My Creative Process" data-fr="Mon processus créatif">My Creative Process</h2>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <h3 class="step-title" data-en="Research & Reference" data-fr="Recherche & référence">Research & Reference</h3>
+        <p class="step-desc" data-en="I study the game's tone, genre, and target audience before touching any tools. Mood boards, reference sheets, and competitor analysis come first." data-fr="J'étudie le ton, le genre et le public cible avant de toucher aux outils. Planches d'ambiance, références et analyse concurrentielle en premier.">
+          I study the game's tone, genre, and target audience before touching any tools. Mood boards, reference sheets, and competitor analysis come first.
+        </p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <h3 class="step-title" data-en="Sketch & Blockout" data-fr="Esquisse & blockout">Sketch & Blockout</h3>
+        <p class="step-desc" data-en="Quick paper sketches followed by grey-box blockouts in Unreal. I test flow, sight lines, and pacing before committing to any final assets." data-fr="Esquisses rapides puis blockout gris dans Unreal. Je teste le flow et les lignes de vue avant de valider les assets finaux.">
+          Quick paper sketches followed by grey-box blockouts in Unreal. I test flow, sight lines, and pacing before committing to any final assets.
+        </p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <h3 class="step-title" data-en="Build & Iterate" data-fr="Construction & itération">Build & Iterate</h3>
+        <p class="step-desc" data-en="Assets built in Maya, brought into Unreal. I iterate based on playtesting feedback — level design is never done on the first pass." data-fr="Assets créés dans Maya, importés dans Unreal. J'itère selon les retours de playtests — le level design n'est jamais fini au premier essai.">
+          Assets built in Maya, brought into Unreal. I iterate based on playtesting feedback — level design is never done on the first pass.
+        </p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <h3 class="step-title" data-en="Polish & Document" data-fr="Peaufinage & documentation">Polish & Document</h3>
+        <p class="step-desc" data-en="Final lighting, VFX polish, and thorough documentation of decisions made. I believe a project isn't finished until it's explained well." data-fr="Éclairage final, polish VFX et documentation des décisions prises. Un projet n'est pas terminé tant qu'il n'est pas bien expliqué.">
+          Final lighting, VFX polish, and thorough documentation of decisions made. I believe a project isn't finished until it's explained well.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="reveal">
+    <p class="section-label" data-en="Get In Touch" data-fr="Me contacter">Get In Touch</p>
+    <h2 class="contact-title" data-en="Let's<br>Work<br><span>Together.</span>" data-fr="Travaillons<br><span>Ensemble.</span>">
+      Let's<br>Work<br><span>Together.</span>
+    </h2>
+    <p class="contact-sub" data-en="Open to internship opportunities in Montréal and beyond. I'm looking for a team where I can learn fast and contribute creatively from day one." data-fr="Ouvert aux opportunités de stage à Montréal et ailleurs. Je cherche une équipe où apprendre vite et contribuer créativement dès le premier jour.">
+      Open to internship opportunities in Montréal and beyond. I'm looking for a team where I can learn fast and contribute creatively from day one.
+    </p>
+  </div>
+  <div class="contact-links reveal" style="transition-delay:0.2s">
+    <a href="mailto:ajaypreetskalsi@gmail.com" class="contact-link">
+      <div class="contact-link-icon">✉</div>
+      <div class="contact-link-info">
+        <p class="contact-link-label" data-en="Email" data-fr="Courriel">Email</p>
+        <p class="contact-link-value">ajaypreetskalsi@gmail.com</p>
+      </div>
+      <span class="contact-link-arrow">→</span>
+    </a>
+    <a href="#" class="contact-link">
+      <div class="contact-link-icon">in</div>
+      <div class="contact-link-info">
+        <p class="contact-link-label">LinkedIn</p>
+        <p class="contact-link-value" data-en="Add your LinkedIn URL" data-fr="Ajoutez votre LinkedIn">Add your LinkedIn URL</p>
+      </div>
+      <span class="contact-link-arrow">→</span>
+    </a>
+    <a href="#" class="contact-link">
+      <div class="contact-link-icon">⌥</div>
+      <div class="contact-link-info">
+        <p class="contact-link-label">ArtStation / Itch.io</p>
+        <p class="contact-link-value" data-en="Add your portfolio link" data-fr="Ajoutez votre lien portfolio">Add your portfolio link</p>
+      </div>
+      <span class="contact-link-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-name">AJAYPREET SINGH KALSI</p>
+  <p class="footer-copy" data-en="© 2026 · Game Developer · Montréal, QC" data-fr="© 2026 · Développeur Jeu · Montréal, QC">© 2026 · Game Developer · Montréal, QC</p>
+</footer>
+
+<script>
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // REVEAL ON SCROLL
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => io.observe(el));
+
+  // LANGUAGE TOGGLE
+  const enBtn = document.getElementById('btn-en');
+  const frBtn = document.getElementById('btn-fr');
+  let lang = 'en';
+
+  function setLang(l) {
+    lang = l;
+    enBtn.classList.toggle('active', l === 'en');
+    frBtn.classList.toggle('active', l === 'fr');
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const val = el.getAttribute('data-' + l);
+      if (val) el.innerHTML = val;
+    });
+  }
+
+  enBtn.addEventListener('click', () => setLang('en'));
+  frBtn.addEventListener('click', () => setLang('fr'));
+</script>
+</body>
+</html>
