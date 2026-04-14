@@ -381,8 +381,7 @@
 
   .project-card:nth-child(1) { grid-column: span 7; }
   .project-card:nth-child(2) { grid-column: span 5; }
-  .project-card:nth-child(3) { grid-column: span 5; }
-  .project-card:nth-child(4) { grid-column: span 7; }
+  .project-card:nth-child(3) { grid-column: span 12; }
 
   .project-thumb {
     width: 100%;
@@ -827,87 +826,84 @@
   </div>
 
   <div class="project-grid">
-    <!-- PROJECT 1 -->
+    <!-- PROJECT 1: COLLECTIBLE SYSTEM -->
     <div class="project-card reveal">
-      <div class="project-thumb project-thumb-p1">
-        <div class="project-thumb-inner">P1</div>
-        <span class="project-thumb-badge" data-en="Unreal Engine 5" data-fr="Unreal Engine 5">Unreal Engine 5</span>
+      <div class="project-thumb project-thumb-p1" style="background:#0d1117; position:relative; overflow:hidden;">
+        <iframe
+          src="https://www.youtube.com/embed/giFaL0HfDuk?rel=0&modestbranding=1"
+          style="position:absolute; inset:0; width:100%; height:100%; border:none;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+        <span class="project-thumb-badge" style="z-index:2; position:absolute; top:16px; right:16px;">Unreal Engine 5</span>
       </div>
       <div class="project-info">
         <p class="project-num">01</p>
-        <h3 class="project-name" data-en="[Your Project Name]" data-fr="[Nom du projet]">[Your Project Name]</h3>
-        <p class="project-desc" data-en="Describe what you built — what's the game about, what was your role? What did you design or implement? Replace this with your real project description." data-fr="Décrivez ce que vous avez créé — de quoi s'agit-il? Quel était votre rôle? Remplacez ceci par la vraie description.">
-          Describe what you built — what's the game about, what was your role? What did you design or implement? Replace this with your real project description.
+        <h3 class="project-name" data-en="Collectible System" data-fr="Système de Collectibles">Collectible System</h3>
+        <p class="project-desc" data-en="A modular collectible system built in Unreal Engine 5 featuring dynamic particle VFX and spatial audio feedback triggered on player pickup. Designed with game feel at the core — every pickup was tuned until it felt satisfying. The system is fully reusable and has since been integrated into other projects." data-fr="Système de collectibles modulaire développé dans Unreal Engine 5 avec effets de particules dynamiques et retour audio spatial. Conçu autour du ressenti du joueur — chaque collectible a été ajusté jusqu'à ce que ce soit satisfaisant.">
+          A modular collectible system built in Unreal Engine 5 featuring dynamic particle VFX and spatial audio feedback triggered on player pickup. Designed with game feel at the core — every pickup was tuned until it felt satisfying.
         </p>
         <div class="project-tags">
-          <span class="tag">Level Design</span>
+          <span class="tag">Unreal Engine 5</span>
           <span class="tag">Blueprints</span>
-          <span class="tag">Unreal 5</span>
+          <span class="tag">C++</span>
+          <span class="tag">Game Feel</span>
         </div>
-        <a href="#" class="project-link" data-en="View Project →" data-fr="Voir le projet →">View Project →</a>
+        <a href="https://youtu.be/giFaL0HfDuk" target="_blank" class="project-link" data-en="Watch Demo →" data-fr="Voir la démo →">Watch Demo →</a>
       </div>
     </div>
 
-    <!-- PROJECT 2 -->
+    <!-- PROJECT 2: FLOATING ISLAND (MAYA) -->
     <div class="project-card reveal" style="transition-delay:0.1s">
-      <div class="project-thumb project-thumb-p2">
-        <div class="project-thumb-inner">P2</div>
-        <span class="project-thumb-badge">Maya 3D</span>
+      <div class="project-thumb project-thumb-p2" style="background:#0d1117; position:relative; overflow:hidden;">
+        <img src="island1.png" alt="Floating Island Maya"
+          style="width:100%; height:100%; object-fit:cover; position:absolute; inset:0; transition: transform 0.4s ease;"
+          onmouseover="this.style.transform='scale(1.05)'"
+          onmouseout="this.style.transform='scale(1)'"
+        />
+        <span class="project-thumb-badge" style="z-index:2; position:absolute; top:16px; right:16px;">Autodesk Maya</span>
       </div>
       <div class="project-info">
         <p class="project-num">02</p>
-        <h3 class="project-name" data-en="[3D Model / Asset]" data-fr="[Modèle 3D / Asset]">[3D Model / Asset]</h3>
-        <p class="project-desc" data-en="Describe your Maya work — character, prop, environment piece? What was the poly count, style, or challenge? Replace with your real project." data-fr="Décrivez votre travail Maya — personnage, accessoire, environnement? Quel était le défi? Remplacez par votre vrai projet.">
-          Describe your Maya work — character, prop, environment piece? What was the poly count, style, or challenge? Replace with your real project.
+        <h3 class="project-name" data-en="Floating Island Scene" data-fr="Scène Île Flottante">Floating Island Scene</h3>
+        <p class="project-desc" data-en="A low-poly floating island environment modeled entirely in Autodesk Maya as a final 3D class project. Focused on clean topology, consistent art style, and game-ready geometry. Includes custom palm trees, terrain sculpting, and stylized surface detail." data-fr="Environnement d'île flottante low-poly modélisé entièrement dans Autodesk Maya. Axé sur la topologie propre, le style artistique cohérent et la géométrie prête pour le jeu.">
+          A low-poly floating island environment modeled entirely in Autodesk Maya as a final 3D class project. Focused on clean topology, consistent art style, and game-ready geometry.
         </p>
         <div class="project-tags">
-          <span class="tag">Maya</span>
+          <span class="tag">Autodesk Maya</span>
           <span class="tag">3D Modeling</span>
-          <span class="tag">Texturing</span>
+          <span class="tag">Low Poly</span>
+          <span class="tag">Environment Art</span>
         </div>
-        <a href="#" class="project-link" data-en="View Project →" data-fr="Voir le projet →">View Project →</a>
       </div>
     </div>
 
-    <!-- PROJECT 3 -->
-    <div class="project-card reveal" style="transition-delay:0.2s">
-      <div class="project-thumb project-thumb-p3">
-        <div class="project-thumb-inner">P3</div>
-        <span class="project-thumb-badge" data-en="Game Jam" data-fr="Game Jam">Game Jam</span>
-      </div>
-      <div class="project-info">
-        <p class="project-num">03</p>
-        <h3 class="project-name" data-en="[Game Jam Project]" data-fr="[Projet Game Jam]">[Game Jam Project]</h3>
-        <p class="project-desc" data-en="What was the jam theme? What did you make in 48-72 hours? What was your contribution to the team? Replace with your real game jam project." data-fr="Quel était le thème? Qu'avez-vous créé en 48-72h? Quelle était votre contribution? Remplacez par votre vrai projet.">
-          What was the jam theme? What did you make in 48-72 hours? What was your contribution to the team? Replace with your real game jam project.
-        </p>
-        <div class="project-tags">
-          <span class="tag">Game Jam</span>
-          <span class="tag">Team Project</span>
-          <span class="tag">Unreal</span>
+    <!-- PROJECT 3: RUINS OF PROSPERO -->
+    <div class="project-card reveal" style="transition-delay:0.2s; grid-column: span 12;">
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0;">
+        <div class="project-thumb project-thumb-p3" style="background:#0a110d; position:relative; overflow:hidden; aspect-ratio:16/9;">
+          <iframe
+            src="https://www.youtube.com/embed/pmlE-cdHqHk?rel=0&modestbranding=1"
+            style="position:absolute; inset:0; width:100%; height:100%; border:none;"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <span class="project-thumb-badge" style="z-index:2; position:absolute; top:16px; right:16px;">Unity · Shipped</span>
         </div>
-        <a href="#" class="project-link" data-en="View Project →" data-fr="Voir le projet →">View Project →</a>
-      </div>
-    </div>
-
-    <!-- PROJECT 4 -->
-    <div class="project-card reveal" style="transition-delay:0.3s">
-      <div class="project-thumb project-thumb-p4">
-        <div class="project-thumb-inner">P4</div>
-        <span class="project-thumb-badge" data-en="School Project" data-fr="Projet scolaire">School Project</span>
-      </div>
-      <div class="project-info">
-        <p class="project-num">04</p>
-        <h3 class="project-name" data-en="[School Project]" data-fr="[Projet scolaire]">[School Project]</h3>
-        <p class="project-desc" data-en="man i dont what the shit that i have in the school projects. interesting technical or creative challenge you solved? Replace with your real school project." data-fr="Quel était le brief? Qu'avez-vous appris? Quel était le défi le plus intéressant? Remplacez par votre vrai projet scolaire.">
-          man i dont what the shit that i have in the school projects. or creative challenge you solved? Replace with your real school project.
-        </p>
-        <div class="project-tags">
-          <span class="tag">Academic</span>
-          <span class="tag">Level Design</span>
-          <span class="tag">Maya</span>
+        <div class="project-info" style="display:flex; flex-direction:column; justify-content:center;">
+          <p class="project-num">03</p>
+          <h3 class="project-name" data-en="Ruins of Prospero" data-fr="Ruines de Prospero">Ruins of Prospero</h3>
+          <p class="project-desc" data-en="A complete third-person elemental wizard action game built and shipped in Unity. Command Fire, Water, and Earth spells across a large explorable environment filled with enemies, collectibles, and boss encounters. Built solo from concept to published build on itch.io." data-fr="Un jeu d'action de sorcier élémentaire à la troisième personne complet, développé et publié dans Unity. Commandez des sorts de Feu, Eau et Terre dans un grand environnement explorable.">
+            A complete third-person elemental wizard action game built and shipped in Unity. Command Fire, Water, and Earth spells across a large explorable environment filled with enemies, collectibles, and boss encounters.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Unity</span>
+            <span class="tag">C#</span>
+            <span class="tag">Shipped</span>
+            <span class="tag">Boss Encounters</span>
+          </div>
+          <a href="https://a-jaypreet.itch.io/ruins-of-prosperoo" target="_blank" class="project-link" data-en="Play on itch.io →" data-fr="Jouer sur itch.io →">Play on itch.io →</a>
         </div>
-        <a href="#" class="project-link" data-en="View Project →" data-fr="Voir le projet →">View Project →</a>
       </div>
     </div>
   </div>
@@ -973,19 +969,19 @@
       </div>
       <span class="contact-link-arrow">→</span>
     </a>
-    <a href="#" class="contact-link">
+    <a href="https://www.linkedin.com/in/ajaypreetkalsi" target="_blank" class="contact-link">
       <div class="contact-link-icon">in</div>
       <div class="contact-link-info">
         <p class="contact-link-label">LinkedIn</p>
-        <p class="contact-link-value" data-en="Add your LinkedIn URL" data-fr="Ajoutez votre LinkedIn">Add your LinkedIn URL</p>
+        <p class="contact-link-value" data-en="linkedin.com/in/ajaypreetkalsi" data-fr="linkedin.com/in/ajaypreetkalsi">linkedin.com/in/ajaypreetkalsi</p>
       </div>
       <span class="contact-link-arrow">→</span>
     </a>
-    <a href="#" class="contact-link">
-      <div class="contact-link-icon">⌥</div>
+    <a href="https://a-jaypreet.itch.io" target="_blank" class="contact-link">
+      <div class="contact-link-icon">🎮</div>
       <div class="contact-link-info">
-        <p class="contact-link-label">ArtStation / Itch.io</p>
-        <p class="contact-link-value" data-en="Add your portfolio link" data-fr="Ajoutez votre lien portfolio">Add your portfolio link</p>
+        <p class="contact-link-label">Itch.io</p>
+        <p class="contact-link-value" data-en="a-jaypreet.itch.io" data-fr="a-jaypreet.itch.io">a-jaypreet.itch.io</p>
       </div>
       <span class="contact-link-arrow">→</span>
     </a>
